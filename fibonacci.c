@@ -11,7 +11,6 @@
 #include <sysexits.h>
 
 long long *fibptr;
-long long *fibstart;
 
 void* fibonacci_process(void* arg)
 {
@@ -19,11 +18,8 @@ void* fibonacci_process(void* arg)
 	long long limit = *limitptr;
 
 	fibptr = (long long*) malloc(limit * sizeof(long long));  //memory allocated using malloc
-	fibstart = (long long*) malloc(sizeof(long long));  //memory allocated using malloc
 
-	fibstart = fibptr;
-
-	int first = 0, second = 1, next;
+	long long first = 0, second = 1, next;
 	for(long long i = 0; i <= limit; i++)
 	{
 		  if ( i <= 1 )
@@ -35,16 +31,11 @@ void* fibonacci_process(void* arg)
 			 second = next;
 		  }
 
-		*fibptr  = next;
-		fibptr++;
+		fibptr[i] = next;
 	}
-
-	fibptr = fibstart;
 
 	pthread_exit(0);
 }
-
-
 
 int main(int argc, char **argv )
 {
@@ -74,9 +65,11 @@ int main(int argc, char **argv )
 
 	for(long long i = 0; i <= *limit; i++)
 	{
-		printf("fibonacci for limit %i is %lld\n", i, *fibptr);
-		fibptr++;
+		printf("fibonacci for limit %i is %lld\n", i, fibptr[i]);
 	}
+
+	free(fibptr);
+	free(limit);
 
 	return EXIT_SUCCESS;
 }
