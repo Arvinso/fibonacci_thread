@@ -17,10 +17,10 @@ void* fibonacci_process(void* arg)
 	long long *limitptr = (long long*) arg;
 	long long limit = *limitptr;
 
-	fibptr = (long long*) malloc(limit * sizeof(long long));  //memory allocated using malloc
+	fibptr = malloc(++limit * sizeof(*fibptr));  //memory allocated using malloc
 
-	long long first = 0, second = 1, next;
-	for(long long i = 0; i <= limit; i++)
+	long long first = 0, second = 1, next = 0;
+	for(long long i = 0; i < limit; i++)
 	{
 		  if ( i <= 1 )
 			 next = i;
